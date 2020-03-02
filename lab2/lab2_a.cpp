@@ -5,36 +5,36 @@
 
 //constructors
 safe_long_long_t::safe_long_long_t(long long number) {
-  this->value = number;
+  value = number;
 };
 safe_long_long_t::safe_long_long_t() {
-  this->value = 0;
+  value = 0;
 };
 
 //getter
-long long& safe_long_long_t::get_value(){
+long long &safe_long_long_t::get_value(){
   return value;
 };
 
 //assignment operator
 void safe_long_long_t::operator= (long long number) {
-  this->value = number;
+  value = number;
 };
 // a++
 safe_long_long_t safe_long_long_t::operator++(){
-    this->value++;
+  value++;
 };
 //++a, why                 "int"       ?????????
 safe_long_long_t safe_long_long_t::operator++(int){
-  ++(this->value);
+  ++value;
 };
 // a--
 safe_long_long_t safe_long_long_t::operator--(){
-    this->value--;
+    value--;
 };
 //--a
 safe_long_long_t safe_long_long_t::operator--(int){
-  --(this->value);
+  --value;
 };
 
 
@@ -65,23 +65,23 @@ bool operator<= (safe_long_long_t number1, safe_long_long_t number2) {
 
 
 //math operators with =
-void operator+= (safe_long_long_t& number1, safe_long_long_t number2) {
+void operator+= (safe_long_long_t &number1, safe_long_long_t number2) {
   number1.get_value() += number2.get_value();
 };
 
-void operator-= (safe_long_long_t& number1, safe_long_long_t number2) {
+void operator-= (safe_long_long_t &number1, safe_long_long_t number2) {
   number1.get_value() -= number2.get_value();
 };
 
-void operator*= (safe_long_long_t& number1, safe_long_long_t number2) {
+void operator*= (safe_long_long_t &number1, safe_long_long_t number2) {
   number1.get_value() *= number2.get_value();
 };
 
-void operator/= (safe_long_long_t& number1, safe_long_long_t number2) {
+void operator/= (safe_long_long_t &number1, safe_long_long_t number2) {
   number1.get_value() /= number2.get_value();
 };
 
-void operator%= (safe_long_long_t& number1, safe_long_long_t number2) {
+void operator%= (safe_long_long_t &number1, safe_long_long_t number2) {
   number1.get_value() %= number2.get_value();
 };
 
@@ -108,12 +108,12 @@ safe_long_long_t operator% (safe_long_long_t number1, safe_long_long_t number2) 
 
 
 //input/output operators
-std::ostream& operator<< (std::ostream& output, safe_long_long_t number) {
+std::ostream &operator<< (std::ostream &output, safe_long_long_t number) {
   output << number.get_value();
   return output;
 };
 
-std::istream& operator>> (std::istream& input, safe_long_long_t& number) {
+std::istream &operator>> (std::istream &input, safe_long_long_t &number) {
   long long temp;
   input >> temp;
   number.get_value() = temp;
