@@ -1,4 +1,8 @@
-class safe_long_long_t{
+#pragma once
+
+#include <iostream>
+
+class safe_long_long_t {
   private:
     long long value;
 
@@ -6,10 +10,10 @@ class safe_long_long_t{
     safe_long_long_t(long long number);
     safe_long_long_t();
 
-    //GETTER
+    //getter
     long long& get_value();
 
-    //ASSIGNMENT OPERATORS
+    //assignment operators
     void operator= (long long number);
     // a++
     safe_long_long_t operator++();
@@ -20,12 +24,12 @@ class safe_long_long_t{
     //--a
     safe_long_long_t operator--(int);
 
-    static safe_long_long_t& operator[] (int number);
-
+    friend std::ostream& operator<< (std::ostream &output, safe_long_long_t number);
+    friend std::istream& operator>> (std::istream &input, safe_long_long_t &number);
 };
 
 
-//COMPARATIVE OPERATORS
+//comparative operators
 bool operator== (safe_long_long_t number1, safe_long_long_t number2);
 
 bool operator!= (safe_long_long_t number1, safe_long_long_t number2);
@@ -39,7 +43,7 @@ bool operator< (safe_long_long_t number1, safe_long_long_t number2);
 bool operator<= (safe_long_long_t number1, safe_long_long_t number2);
 
 
-//MATH OPERATORS WITH =
+//math operators with =
 void operator+= (safe_long_long_t &number1, safe_long_long_t number2);
 
 void operator-= (safe_long_long_t &number1, safe_long_long_t number2);
@@ -50,7 +54,8 @@ void operator/= (safe_long_long_t &number1, safe_long_long_t number2);
 
 void operator%= (safe_long_long_t &number1, safe_long_long_t number2);
 
-//MATH OPERATORS WITHOUT =
+
+//math operators without =
 safe_long_long_t operator+ (safe_long_long_t number1, safe_long_long_t number2);
 
 safe_long_long_t operator- (safe_long_long_t number1, safe_long_long_t number2);
@@ -62,7 +67,7 @@ safe_long_long_t operator/ (safe_long_long_t number1, safe_long_long_t number2);
 safe_long_long_t operator% (safe_long_long_t number1, safe_long_long_t number2);
 
 
-//INPUT/OUTPUT OPERATORS
-std::ostream& operator<< (std::ostream &output, safe_long_long_t number);
+//input/output operators
+std::ostream& operator<< (std::ostream& output, safe_long_long_t number);
 
-std::istream& operator>> (std::istream &input, safe_long_long_t &number);
+std::istream& operator>> (std::istream& input, safe_long_long_t& number);
