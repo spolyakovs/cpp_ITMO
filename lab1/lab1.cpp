@@ -1,9 +1,10 @@
 #include <iostream>
+#include <fstream>
 #include <math.h>
 
 
 float function(float x) {
-  return x * log(x);
+  return - x * log(x);
 }
 
 //needed in defining zero_line
@@ -39,28 +40,27 @@ int main() {
   int zero_line = round_up(ymax / cell_height);
 
   //drawing (42 - 65)
+  std::ofstream output_file ("graph.txt");
   //for positive Y
   for (int i = 0; i < zero_line; ++i) {
-    std::cout << i + 1 << ' ';
     for (int j = 0; j < width; ++j) {
-      if ((zero_line - i) * cell_height < y_array[j]) { std::cout << '#'; }
-      else { std::cout << ' '; }
+      if ((zero_line - i) * cell_height < y_array[j]) { output_file << '#'; }
+      else { output_file << ' '; }
     }
-    std::cout << std::endl;
+    output_file << std::endl;
   }
-  // zero
-  std::cout << zero_line + 1 << ' ';
+  // zero line
   for (int j = 0; j < width; ++j) {
-    std::cout << '-';
+    output_file << '-';
   }
+  output_file << std::endl;
   // for negative Y
-  std::cout << std::endl;
   for (int i = zero_line + 1; i < height; ++i) {
-    std::cout << i + 1 << ' ';
     for (int j = 0; j < width; ++j) {
-      if ((i - zero_line) * cell_height < (-y_array[j])) { std::cout << '#'; }
-      else { std::cout << ' '; }
+      if ((i - zero_line) * cell_height < (-y_array[j])) { output_file << '#'; }
+      else { output_file << ' '; }
     }
-    std::cout << std::endl;
+    output_file << std::endl;
   }
+  output_file.close();
 }

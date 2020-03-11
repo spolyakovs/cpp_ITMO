@@ -1,45 +1,4 @@
-#include <iostream>
-
-
-template <typename T> class safe_c_array_t {
-  private:
-    T *array;
-
-  public:
-    safe_c_array_t<T>(std::size_t size) {
-      array = new T[size];
-    };
-
-    safe_c_array_t<T>(safe_c_array_t<T> &safe_array) {
-      array = new T[sizeof(safe_array.get_array())];
-    };
-
-    ~safe_c_array_t() {
-      delete array;
-    };
-
-    T &get_array() {
-      return &array;
-    };
-
-
-    void *operator new(std::size_t size) {
-      void *ptr;
-      ptr = std::malloc(size);
-      if (!ptr) {
-        throw std::bad_alloc();
-      };
-      return ptr;
-    };
-
-    void operator delete(void *ptr) {
-      std::free(ptr);
-    };
-
-    T &operator[](std::size_t idx) {
-      return array[idx];
-    };
-  };
+#include "lab2_b.tpp"
 
 
 int main() {
@@ -51,11 +10,25 @@ int main() {
 
   safe_c_array_t<int> array(size);
   safe_c_array_t<int> array_copy(array);
+  safe_c_array_t<int> new_array(size);
 
-  safe_c_array_t<int> temp(1);
   for (int i = 0; i < size; ++i) {
     array[i] = i + 1;
-    int value = array[i];
-    std::cout << value << std::endl;
+    array_copy[i] = i + 1;
+  }
+
+  new_array = array;
+
+  for (int i = 0; i < size; ++i) {
+    std::cout << "i: " << i << std::endl;
+    std::cout << "array[i] before redefinition: " << array[i] << std::endl;
+    std::cout << "new_array[i] before redefinition: " << new_array[i] << std::endl;
+    std::cout << "array_copy[i] before redefinstd::size_ition: " << array_copy[i] << std::endl;
+
+    array_copy[i] = i + 11;
+    std::cout << "array[i] after redefinition: " << array[i] << std::endl;
+    std::cout << "new_array[i] after redefinition: " << new_array[i] << std::endl;
+    std::cout << "array_copy[i] after redefinition: " << array_copy[i] << std::endl;
+    std::cout << std::endl;
   };
 };

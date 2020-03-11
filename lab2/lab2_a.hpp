@@ -8,13 +8,14 @@ class safe_long_long_t {
 
   public:
     safe_long_long_t(long long number);
+
     safe_long_long_t();
 
     //getter
     long long& get_value();
 
     //assignment operators
-    void operator= (long long number);
+    void operator= (safe_long_long_t number);
     // a++
     safe_long_long_t operator++();
     //++a, why                 "int"       ?????????
@@ -23,6 +24,17 @@ class safe_long_long_t {
     safe_long_long_t operator--();
     //--a
     safe_long_long_t operator--(int);
+
+    //math operators with =
+    safe_long_long_t &operator+= (safe_long_long_t number);
+
+    safe_long_long_t &operator-= (safe_long_long_t number);
+
+    safe_long_long_t &operator*= (safe_long_long_t number);
+
+    safe_long_long_t &operator/= (safe_long_long_t number);
+
+    safe_long_long_t &operator%= (safe_long_long_t number);
 
     friend std::ostream& operator<< (std::ostream &output, safe_long_long_t number);
     friend std::istream& operator>> (std::istream &input, safe_long_long_t &number);
@@ -41,18 +53,6 @@ bool operator>= (safe_long_long_t number1, safe_long_long_t number2);
 bool operator< (safe_long_long_t number1, safe_long_long_t number2);
 
 bool operator<= (safe_long_long_t number1, safe_long_long_t number2);
-
-
-//math operators with =
-void operator+= (safe_long_long_t &number1, safe_long_long_t number2);
-
-void operator-= (safe_long_long_t &number1, safe_long_long_t number2);
-
-void operator*= (safe_long_long_t &number1, safe_long_long_t number2);
-
-void operator/= (safe_long_long_t &number1, safe_long_long_t number2);
-
-void operator%= (safe_long_long_t &number1, safe_long_long_t number2);
 
 
 //math operators without =
