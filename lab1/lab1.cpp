@@ -1,16 +1,20 @@
 #include <iostream>
 #include <fstream>
-#include <math.h>
+#include <cmath>
 
 
 float function(float x) {
-  return - x * log(x);
+  return -x * log(x);
 }
 
 //needed in defining zero_line
 int round_up(float x) {
-  if ((int)x == x) { return x; }
-  else { return x + 1; }
+  if ((int)x == x) {
+    return x;
+  }
+  else {
+    return x + 1;
+  }
 }
 
 
@@ -30,8 +34,8 @@ int main() {
     y_array[i] = current_y;
 
     //define min and max Y value
-    if (current_y < ymin) { ymin = current_y; }
-    if (current_y > ymax) { ymax = current_y; }
+    ymin = std::min(current_y, ymin);
+    ymax = std::max(current_y, ymax);
   }
 
 
@@ -62,5 +66,5 @@ int main() {
     }
     output_file << std::endl;
   }
-  output_file.close();
+  delete[] y_array;
 }
