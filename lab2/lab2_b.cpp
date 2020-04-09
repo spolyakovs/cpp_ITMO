@@ -23,12 +23,12 @@ int main() {
     std::cout << "i: " << i << std::endl;
     std::cout << "array[i] before redefinition: " << array[i] << std::endl;
     std::cout << "new_array[i] before redefinition: " << new_array[i] << std::endl;
-    std::cout << "array_copy[i] before redefinstd::size_ition: " << array_copy[i] << std::endl;
+    std::cout << "array_copy[i] before redSefinstd::size_ition: " << array_copy[i] << std::endl;
 
     array_copy[i] = i + 11;
     std::cout << "array[i] after redefinition: " << array[i] << std::endl;
     std::cout << "new_array[i] after redefinition: " << new_array[i] << std::endl;
     std::cout << "array_copy[i] after redefinition: " << array_copy[i] << std::endl;
     std::cout << std::endl;
-  };
-};
+  }
+}

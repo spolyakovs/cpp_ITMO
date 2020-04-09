@@ -7,9 +7,11 @@ class safe_long_long_t {
     long long value;
 
   public:
-    safe_long_long_t(long long number);
-
+    //class constuctors
+    safe_long_long_t(long long new_value);
     safe_long_long_t();
+    //copy constucor
+    safe_long_long_t(const safe_long_long_t &copy_from);
 
     //getter
     long long& get_value();
@@ -18,7 +20,7 @@ class safe_long_long_t {
     void operator= (safe_long_long_t number);
     // a++
     safe_long_long_t operator++();
-    //++a, why                 "int"       ?????????
+    //++a
     safe_long_long_t operator++(int);
     // a--
     safe_long_long_t operator--();
