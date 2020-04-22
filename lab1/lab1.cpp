@@ -1,22 +1,12 @@
+#pragma once
+
 #include <iostream>
 #include <fstream>
 #include <cmath>
 
-
 float function(float x) {
   return -x * log(x);
 }
-
-//needed in defining zero_line
-int round_up(float x) {
-  if ((int)x == x) {
-    return x;
-  }
-  else {
-    return x + 1;
-  }
-}
-
 
 int main() {
   int width, height;
@@ -38,10 +28,9 @@ int main() {
     ymax = std::max(current_y, ymax);
   }
 
-
   float cell_height = (ymax - ymin) / (height - 1);
   //line number where Y=0 (----------------)
-  int zero_line = round_up(ymax / cell_height);
+  int zero_line = ceil(ymax / cell_height);
 
   //drawing (42 - 65)
   std::ofstream output_file ("graph.txt");
