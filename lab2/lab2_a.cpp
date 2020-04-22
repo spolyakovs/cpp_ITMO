@@ -1,6 +1,8 @@
-#include "lab2_a.hpp"
-//definition "safe_long_long_t" class methods
+#pragma once
 
+#include "lab2_a.hpp"
+
+//definition "safe_long_long_t" class methods
 //constructors
 safe_long_long_t::safe_long_long_t(long long new_value) {
   value = new_value;
@@ -66,7 +68,6 @@ safe_long_long_t &safe_long_long_t::operator%= (safe_long_long_t number) {
   return *this;
 }
 
-
 //comparative operators
 bool operator== (safe_long_long_t number1, safe_long_long_t number2) {
   return number1.get_value() == number2.get_value();
@@ -113,7 +114,6 @@ safe_long_long_t operator% (safe_long_long_t number1, safe_long_long_t number2) 
   return number1.get_value() % number2.get_value();
 }
 
-
 //input/output operators
 std::ostream &operator<< (std::ostream &output, safe_long_long_t number) {
   output << number.get_value();
@@ -126,14 +126,12 @@ std::istream &operator>> (std::istream &input, safe_long_long_t &number) {
   number.get_value() = temp;
 }
 
-
 int main() {
   //tests
   safe_long_long_t number1, number2, number3;
   number1 = 1025;
   safe_long_long_t number1_equal = number1;
   number2 = 1024000;
-
 
   std::cout << "number1++: " << number1++ << std::endl;
   std::cout << "++number1_equal: " << ++number1_equal << std::endl;
