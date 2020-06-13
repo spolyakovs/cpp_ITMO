@@ -35,8 +35,6 @@ std::size_t safe_c_array_t<T>::get_size() {
 template <typename T>
 void safe_c_array_t<T>::operator= (const safe_c_array_t<T> &other) {
   size = other.size;
-  delete[] array;
-  array = new T[size];
   for (int i = 0; i < size; ++i) {
     array[i] = other[i];
   }
