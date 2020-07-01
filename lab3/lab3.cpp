@@ -172,8 +172,7 @@ void int_list_t::pop_front() {
   if (empty()) {
     throw std::out_of_range("Trying to call 'pop_front()' from empty array");
   }
-  --s;
-  if (empty()) {
+  if (s == 1) {
     delete first;
     first = nullptr;
     last = nullptr;
@@ -183,14 +182,14 @@ void int_list_t::pop_front() {
     delete first;
     first = temp_node;
   }
+  --s;
 
 }; // O(1)
 void int_list_t::pop_back() {
   if (empty()) {
     throw std::out_of_range("Trying to call 'pop_back()' from empty array");
   }
-  --s;
-  if (empty()) {
+  if (s == 1) {
     delete last;
     last = nullptr;
     first = nullptr;
@@ -200,6 +199,7 @@ void int_list_t::pop_back() {
     delete last;
     last = temp_node;
   }
+  --s;
 }; // O(1)
 
 int_list_t int_list_t::splice(size_t start_pos, size_t count) {
