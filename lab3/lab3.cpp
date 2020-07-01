@@ -4,24 +4,20 @@
 int_list_t::int_list_t() : s(0), first(nullptr), last(nullptr) {}; // O(1)
 
 int_list_t::int_list_t(const int_list_t &other) : int_list_t() {
-  if (!other.empty()) {
-    for (int i = 0; i < other.size(); ++i) {
-      push_back(other[i]);
-    }
+  node_t *temp_node = other.first;
+  for (int i = 0; i < other.size(); ++i) {
+    push_back(temp_node->value);
+    temp_node = temp_node->next;
   }
 }; // COPY $other list O(other.s)
 int_list_t::int_list_t(size_t count) : int_list_t() {
-  if (count != 0) {
-    for (int i = 0; i < count; ++i) {
-      push_back(i);
-    }
+  for (int i = 0; i < count; ++i) {
+    push_back(i);
   }
 };// create list $count s and fill it with increazing numbers
 int_list_t::int_list_t(size_t count, int value) : s(0), first(nullptr), last(nullptr) {
-  if (count != 0) {
-    for (int i = 0; i < count; ++i) {
-      push_back(value);
-    }
+  for (int i = 0; i < count; ++i) {
+    push_back(value);
   }
 }; // create list $count s and fill it with $value O($count)
 int_list_t::~int_list_t() {
@@ -29,9 +25,13 @@ int_list_t::~int_list_t() {
 }; // O(s)
 
 int_list_t &int_list_t::operator=(const int_list_t &other) {
-  clear();
-  for (int i = 0; i < other.size(); ++i) {
-    push_back(other[i]);
+  if (&other != this) {
+    clear();
+    node_t *temp_node = other.first;
+    for (int i = 0; i < other.size(); ++i) {
+      push_back(temp_node->value);
+      temp_node = temp_node->next;
+    }
   }
   return *this;
 }; // O(s + other.s())
@@ -167,8 +167,12 @@ void int_list_t::erase(size_t pos) {
     throw std::out_of_range("Trying to erase item from array with index more than array size");
   }
   node_t *temp_node = get_node_by_pos(pos);
-  temp_node->prev->next = temp_node->next;
-  temp_node->next->prev = temp_node->prev;
+  if (temp_node->prev != nullptr) {
+    temp_node->prev->set_next(temp_node->next);
+  }
+  if (temp_node->next != nullptr) {
+    temp_node->next->set_prev(temp_node->prev);
+  }
   delete temp_node;
   --s;
 }; // remove element with index $pos O(min($pos, s - $pos))

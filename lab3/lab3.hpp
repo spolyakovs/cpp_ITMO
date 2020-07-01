@@ -29,7 +29,7 @@ public:
   int_list_t(); // O(1)
 
   int_list_t(const int_list_t &other); // COPY $other list O(other.size)
-  int_list_t(size_t count);// create list $count s and fill it with increazing numbers
+  explicit int_list_t(size_t count);// create list $count s and fill it with increazing numbers
   int_list_t(size_t count, int value); // create list $count s and fill it with $value O($count)
   ~int_list_t(); // O(size)
 
