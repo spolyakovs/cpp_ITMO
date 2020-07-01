@@ -101,21 +101,13 @@ void int_list_t::insert(size_t pos, int new_val) {
   if (pos > s) {
     throw std::out_of_range("Trying to insert item into array with index more than array size");
   }
-  node_t *new_node = new node_t(new_val);
 
-  if (pos > s / 2) { // if new element if closer to the end
-    // search for element with position $pos-1 to insert $new_val AFTER it because of situation where pos=s
-    node_t *temp_node = get_node_by_pos(pos - 1);
 
-    // bind $new_node with $temp_node and $temp_node->next
-    new_node->set_next(temp_node->next);
-    if (temp_node->next != nullptr) {  //needed to not throw exception in situation where pos=s
-      temp_node->next->set_prev(new_node);
-    }
-    temp_node->set_next(new_node);
-    new_node->set_prev(temp_node);
+  if (pos == s) {
+    push_back(new_val);
   } else {
-    // search for element with position $pos to insert $new_val before it
+    auto new_node = new node_t(new_val);
+
     node_t *temp_node = get_node_by_pos(pos);
 
     // bind $new_node with $temp_node and $temp_node->prev
@@ -127,18 +119,18 @@ void int_list_t::insert(size_t pos, int new_val) {
       temp_node->set_prev(new_node);
       new_node->set_next(temp_node);
     }
-  }
 
-  if (new_node->prev == nullptr) {
-    first = new_node;
+    if (new_node->prev == nullptr) {
+      first = new_node;
+    }
+    if (new_node->next == nullptr) {
+      last = new_node;
+    }
+    ++s;
   }
-  if (new_node->next == nullptr) {
-    last = new_node;
-  }
-  ++s;
 }; // insert element $new_val BEFORE element with index $pos O(min($pos, s - $pos))
 void int_list_t::push_front(int new_val) {
-  node_t *new_node = new node_t(new_val);
+  auto new_node = new node_t(new_val);
   if (!empty()) {
     new_node->set_next(first);
     first->set_prev(new_node);
@@ -150,7 +142,7 @@ void int_list_t::push_front(int new_val) {
   ++s;
 }; // O(1)
 void int_list_t::push_back(int new_val) {
-  node_t *new_node = new node_t(new_val);
+  auto new_node = new node_t(new_val);
   if (!empty()) {
     new_node->set_prev(last);
     last->set_next(new_node);
@@ -347,6 +339,12 @@ int main(int argc, char **argv) {
   list_of_numbers.merge(new_list);
   std::cout << "list_of_numbers after merge:      " << list_of_numbers << std::endl;
   std::cout << "new_list after merge:             " << new_list << std::endl;
+
+  int_list_t list_n(5);
+  std::cout << "list_n:                           " << list_n << std::endl;
+
+  list_n[3] = 5;
+  std::cout << "list_n:                           " << list_n << std::endl;
 
   //int_list_t input_list;
   //std::cout << "Введите числа через пробел, для выхода из цикла нажмите Ctrl+D (*nux) или Ctrl+Z (Windows)" << std::endl;

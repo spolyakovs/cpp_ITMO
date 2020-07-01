@@ -71,25 +71,6 @@ private:
   node_t *last;
   size_t s;
 
-  node_t *get_node_by_pos(size_t pos) {
-    if (pos >= s) {
-      return nullptr;
-    }
-    if (pos > s / 2) {
-      node_t *temp_node = last;
-      for (int i = s - 1; i > pos; --i) {
-        temp_node = temp_node->prev;
-      }
-      return temp_node;
-    } else {
-      node_t *temp_node = first;
-      for (int i = 0; i < pos; ++i) {
-        temp_node = temp_node->next;
-      }
-      return temp_node;
-    }
-  }
-
   node_t *get_node_by_pos(size_t pos) const {
     if (pos >= s) {
       return nullptr;
