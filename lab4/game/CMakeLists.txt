@@ -1,7 +1,7 @@
 project(game)
 
 set(SOURCES
-		game.cpp)
+		game.cpp structures.cpp)
 set(HEADERS
 		game.h
 		structures.h)

@@ -5,9 +5,9 @@
 #include <iostream>
 
 enum step_type_t {
+  UNKNOWN,
   MOVE,
-  ATTACK,
-  UNKNOWN
+  ATTACK
 };
 
 struct step_t {
@@ -24,6 +24,17 @@ struct step_t {
   void set_type(step_type_t new_type) {
     type = new_type;
   }
+
+  void print() const {
+    std::cout << "From (" << from_x << ", " << from_y << ") to (" << to_x << ", " << to_y << ')' << std::endl;
+  }
+
+  bool operator==(const step_t &other_step) const {
+    return (from_x == other_step.from_x &&
+        from_y == other_step.from_y &&
+        to_x == other_step.to_x &&
+        to_y == other_step.to_y);
+  }
 };
 
 enum side_t {
@@ -32,9 +43,9 @@ enum side_t {
 };
 
 enum status_t {
+  DEAD,
   PLAIN,
-  QUEEN,
-  DEAD
+  QUEEN
 };
 
 struct checker_t {
@@ -44,11 +55,16 @@ public:
   int x;
   int y;
 
-  checker_t(side_t side = WHITE, int x = 0, int y = 0) :
+  checker_t(side_t side = WHITE, int x = 0, int y = 0, status_t status = PLAIN) :
       side{side},
-      status(PLAIN),
+      status{status},
       x{x},
       y{y} {}
+
+  void move_to(int to_x, int to_y) {
+    x = to_x;
+    y = to_y;
+  }
 };
 
 struct field_t {
@@ -56,117 +72,22 @@ private:
   checker_t checkers[24];
 
 public:
-  field_t() :
-      checkers() {
-    for (int i = 0; i < 12; ++i) {
-      checker_t new_checker(BLACK, (i % 4) * 2 - (i / 4) % 2 + 2, i / 4 + 1);
-      checkers[i] = new_checker;
-    }
-    for (int i = 0; i < 12; ++i) {
-      checker_t new_checker(WHITE, 8 - ((i % 4) * 2 - (i / 4) % 2 + 1), 8 - (i / 4));
-      checkers[i + 12] = new_checker;
-    }
-  }
+  checker_t last_attacker;
 
-  void print(side_t side = WHITE) const {
-    // prints row number at the beginning of each row (needs because of reversing field depending on side)
-    std::cout << ' ' << ' ';
-    for (int k = 1; k <= 8; ++k) {
-      if (side == WHITE) {
-        std::cout << k << ' ';
-      } else {
-        std::cout << 9 - k;
-      }
-    }
-    std::cout << std::endl;
+  field_t();
 
-    for (int i = 1; i <= 8; ++i) {
-      // prints row number at the beginning of each row (needs because of reversing field depending on side)
-      if (side == WHITE) {
-        std::cout << i;
-      } else {
-        std::cout << 9 - i;
-      }
-      std::cout << ' ';
+  void print(side_t side = WHITE) const;
 
-      for (int j = 1; j <= 8; ++j) {
-        try {
-          checker_t tmp_checker;
-          if (side == WHITE) {
-            tmp_checker = find_checker(j, i);
-          } else {
-            tmp_checker = find_checker(9 - j, 9 - i);
-          }
+  bool is_correct_step_general(step_t &step, side_t side, bool need_output) const;
 
-          if (tmp_checker.side == WHITE) {
-            std::cout << 'w';
-          } else {
-            std::cout << 'b';
-          }
-        } catch (std::invalid_argument &e) {
-          std::cout << '.';
-        }
-        std::cout << ' ';
-      }
-      std::cout << std::endl;
-    }
-  }
+  bool is_correct_step_move(const step_t &step, side_t side, bool need_output) const;
+  bool is_correct_step_attack(const step_t &step, side_t side, bool need_output) const;
+  bool is_correct_step_queen(step_t &step, side_t side, bool need_output) const;
 
-  std::vector<step_t> find_possible_steps(const side_t &side) const {
-    int delta_y = 1;
-    std::vector<step_t> result;
-    if (side == BLACK) {
-      delta_y = -1;
-    }
-    for (const checker_t &p : checkers) {
-      try {
-        checker_t neighbour = find_checker(p.x, p.y);
-        if (neighbour.side != side) {
+  std::vector<step_t> find_possible_steps(side_t side) const;
 
-        }
-      } catch (std::invalid_argument &e) {
+  size_t checkers_count(side_t side);
 
-      }
-    }
-  }
-
-  bool is_correct_step_general(const step_t &step) const {
-    int delta_x = step.to_x - step.from_x;
-    int delta_y = step.to_y - step.from_y;
-
-    // check that all coordinates are inside of a field
-    if (step.from_x < 1 || step.from_x > 8 ||
-        step.from_y < 1 || step.from_y > 8 ||
-        step.to_x < 1 || step.to_x > 8 ||
-        step.to_y < 1 || step.to_y > 8) {
-      std::cout << "Some coordinates are outside of the field" << std::endl;
-      return false;
-    }
-
-    // check that move is diagonal
-    if (abs(delta_x) != abs(delta_y)) {
-      std::cout << "Step is not diagonal" << std::endl;
-      return false;
-    }
-    return true;
-  }
-
-
-  checker_t &find_checker(int x, int y) {
-    for (checker_t &p : checkers) {
-      if (p.status != DEAD && p.x == x && p.y == y) {
-        return p;
-      }
-    }
-    throw std::invalid_argument("Inner exception when checker is not found");
-  }
-
-  const checker_t &find_checker(int x, int y) const {
-    for (const checker_t &p : checkers) {
-      if (p.status != DEAD && p.x == x && p.y == y) {
-        return p;
-      }
-    }
-    throw std::invalid_argument("Inner exception when checker is not found");
-  }
+  checker_t &find_checker(int x, int y);
+  const checker_t &find_checker(int x, int y) const;
 };

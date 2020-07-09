@@ -8,16 +8,12 @@ public:
 
   void on_win() override;
   void on_lose() override;
-  void on_tie() override;
 
   void on_incorrect_step(const step_t &step) const override;
-
-  virtual std::pair<int, int> choose_moving_checker(const field_t fld) = 0;
 
   virtual void print_stat() const;
 
 private:
   size_t win_counter;
   size_t lose_counter;
-  size_t tie_counter;
 };

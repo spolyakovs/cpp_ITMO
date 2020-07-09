@@ -12,25 +12,19 @@ public:
   game_t(const player_t &first, const player_t &second);
 
   void play();
-
-  bool is_correct_step(int from_x, int from_y, int to_x, int to_y);
-  bool is_correct_step_move(const step_t &step);
-  bool is_correct_step_attack(const step_t &step);
-
 private:
-  side_t side = WHITE;
   enum game_outcome_t {
     WIN,
-    TIE,
     IN_PROGRESS
   };
+  player_t current_player();
 
-  bool is_win_line(int x, int y, int dx, int dy) const;
-  game_outcome_t is_win() const;
-  bool apply_step(const step_t &step, size_t player_num);
+  game_outcome_t is_win();
+  bool apply_step(step_t &step);
   void change_sides();
 
+  side_t side;
   field_t fld;
-  std::vector<player_t> players;
+  std::pair<player_t, player_t> players;
 };
 

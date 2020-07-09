@@ -5,9 +5,9 @@
 #include "../game/structures.h"
 #include "computer_interface.h"
 
-class computer_random_t : public computer_interface_t {
+class computer_min_y_t : public computer_interface_t {
 public:
-  explicit computer_random_t(std::string name);
+  explicit computer_min_y_t(std::string name);
 
   step_t make_step(const field_t &field, side_t side) override;
 
